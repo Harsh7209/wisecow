@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY wisecow.sh /usr/local/bin/wisecow.sh
 
-RUN dos2unix /usr/local/bin/wisecow.sh && \
+# FIX LINE ENDINGS WITH SED
+RUN sed -i 's/\r$//' /usr/local/bin/wisecow.sh && \
     chmod +x /usr/local/bin/wisecow.sh
 
 EXPOSE 4499
