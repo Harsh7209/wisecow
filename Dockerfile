@@ -4,8 +4,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     cowsay \
     fortune \
-    netcat-openbsd \
+    netcat \
     && rm -rf /var/lib/apt/lists/*
+
+# Verify packages are installed
+RUN which cowsay && which fortune && which nc || echo "PACKAGES MISSING"
 
 COPY wisecow.sh /usr/local/bin/wisecow.sh
 RUN sed -i 's/\r$//' /usr/local/bin/wisecow.sh && \
