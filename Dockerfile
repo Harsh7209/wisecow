@@ -1,13 +1,22 @@
 FROM ubuntu:22.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/usr/games:${PATH}"
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     cowsay \
     fortune-mod \
+    fortunes-min \
     netcat-openbsd \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/usr/games:${PATH}"
+# Verify installations
+RUN command -v cowsay && \
+    command -v fortune && \
+    command -v nc && \
+    fortune
 
 COPY wisecow.sh /usr/local/bin/wisecow.sh
 
