@@ -13,7 +13,6 @@ command -v nc >/dev/null 2>&1 || exit 1
 handle_request() {
 mod=$(fortune)
 
-```
 echo "HTTP/1.1 200 OK"
 echo "Content-Type: text/html"
 echo "Connection: close"
@@ -21,14 +20,12 @@ echo
 echo "<pre>"
 cowsay "$mod"
 echo "</pre>"
-```
 
 }
 
 main() {
 prerequisites
 
-```
 echo "Wisdom served on port=$SRVPORT..."
 
 rm -f /tmp/wisecow.pipe
@@ -39,7 +36,6 @@ while true; do
     nc -l -p "$SRVPORT" < /tmp/wisecow.pipe
     wait
 done
-```
 
 }
 
