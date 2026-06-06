@@ -2,40 +2,36 @@
 
 SRVPORT=4499
 
-get_api() {
-	read line
-	echo $line
+prerequisites() {
+    command -v cowsay >/dev/null 2>&1 || exit 1
+    command -v fortune >/dev/null 2>&1 || exit 1
+    command -v nc >/dev/null 2>&1 || exit 1
 }
 
 handleRequest() {
-    get_api > /dev/null
-	mod=`fortune`
+    # Read and discard HTTP request headers
+    while read -r line; do
+        [ "$line" = $'\r' ] && break
+    done
 
-cat <<EOF
+    mod=$(fortune)
+
+    cat <<EOF
 HTTP/1.1 200 OK
 Content-Type: text/html
 Connection: close
 
-<pre>`cowsay $mod`</pre>
+<pre>$(cowsay "$mod")</pre>
 EOF
 }
 
-prerequisites() {
-	command -v cowsay >/dev/null 2>&1 &&
-	command -v fortune >/dev/null 2>&1 || 
-		{ 
-			echo "Install prerequisites."
-			exit 1
-		}
-}
-
 main() {
-	prerequisites
-	echo "Wisdom served on port=$SRVPORT..."
-	
-	while true; do
-		nc -lN -p $SRVPORT | handleRequest
-	done
+    prerequisites
+    echo "Wisdom served on port=$SRVPORT..."
+
+    while true; do
+        handleRequest | nc -l -p "$SRVPORT" -q 1
+    done
 }
 
 main
