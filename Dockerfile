@@ -3,8 +3,9 @@ FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     cowsay \
-    fortune \
-    netcat \
+    fortune-mod \
+    netcat-openbsd \
+    bash \
     && rm -rf /var/lib/apt/lists/*
 
 # Verify packages are installed
