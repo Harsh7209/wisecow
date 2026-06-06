@@ -11,20 +11,18 @@ command -v nc >/dev/null 2>&1 || exit 1
 }
 
 handle_request() {
-local mod
 mod=$(fortune)
 
 ```
-cat <<EOF
+echo "HTTP/1.1 200 OK"
+echo "Content-Type: text/html"
+echo "Connection: close"
+echo
+echo "<pre>"
+cowsay "$mod"
+echo "</pre>"
 ```
 
-HTTP/1.1 200 OK
-Content-Type: text/html
-Connection: close
-
-<pre>$(cowsay "$mod")</pre>
-
-EOF
 }
 
 main() {
