@@ -10,10 +10,10 @@ RUN apk add --no-cache \
 # Copy the wisecow script
 COPY wisecow.sh /usr/local/bin/wisecow.sh
 
-# Make the script executable
+# Making the script executable
 RUN chmod +x /usr/local/bin/wisecow.sh
 
-# Expose the port
+# Exposing the port
 EXPOSE 4499
 
 # Run the wisecow service
