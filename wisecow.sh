@@ -20,18 +20,10 @@ Connection: close
 EOF
 }
 
-prerequisites() {
-	command -v cowsay >/dev/null 2>&1 &&
-	command -v fortune >/dev/null 2>&1 || 
-		{ 
-			echo "Install prerequisites."
-			exit 1
-		}
-}
-
 main() {
-	prerequisites
-	echo "Wisdom served on port=$SRVPORT..."
+	echo "Wisdom served on http://localhost:$SRVPORT"
+	echo "Press Ctrl+C to stop"
+	
 	while true; do
 		socat TCP-LISTEN:$SRVPORT,reuseaddr,fork EXEC:'handleRequest'
 	done
