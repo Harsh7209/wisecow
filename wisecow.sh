@@ -1,5 +1,3 @@
-# Updated implementation to use a named pipe (FIFO) between the response generator and netcat. This allows the HTTP response produced by handle_request to be forwarded correctly to the client socket instead of being written to stdout, resolving the empty-response issue.
-
 #!/usr/bin/env bash
 
 SRVPORT=4499
@@ -42,3 +40,4 @@ done
 }
 
 main
+# Updated implementation to use a named pipe (FIFO) between the response generator and netcat. This allows the HTTP response produced by handle_request to be forwarded correctly to the client socket instead of being written to stdout, resolving the empty-response issue
