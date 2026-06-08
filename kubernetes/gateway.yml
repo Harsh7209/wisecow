@@ -1,0 +1,90 @@
+# workflow for gateway controller
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: envoy-gateway
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: wisecow-gateway
+  namespace: wisecow
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: envoy-gateway
+  listeners:
+  
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname:  52.88.173.187.sslip.io
+
+
+
+
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: wisecow-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: wisecow-route
+  namespace: wisecow
+spec:
+  hostnames:
+    - 52.88.173.187.sslip.io   
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: wisecow-gateway
+      sectionName: https
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: wisecow-gateway
+      sectionName: http
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: wisecow-service
+          port: 4499
+          weight: 1
+---
+
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: wisecow-session
+  namespace: wisecow
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: wisecow-route
+  loadBalancer:
+    type: ConsistentHash
+    consistentHash:
+      type: Cookie
+      cookie:
+        name: WISECOW_AFFINITY
+        ttl: 3600s
