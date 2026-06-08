@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: wisecow-container
-        image: harsh9308/wisecow:a5d4fe9
+        image: harsh9308/wisecow:fa67d47
         ports:
         - containerPort: 4499
