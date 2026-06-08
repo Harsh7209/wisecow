@@ -5,17 +5,17 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0"
 
-  # v21 parameter names (renamed from v20)
+  
   name               = local.name
   kubernetes_version = var.cluster_version
 
   endpoint_public_access  = true
   endpoint_private_access = true
 
-  # Cluster creator gets admin access via access_entries
+  
   enable_cluster_creator_admin_permissions = true
 
-  # EKS Add-ons (latest versions auto-resolved)
+ 
   addons = {
     coredns = {
       most_recent = true
@@ -62,7 +62,7 @@ module "eks" {
   tags = local.tags
 }
 
-# IRSA for EBS CSI Driver (needed to create/attach EBS volumes)
+
 module "ebs_csi_irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "~> 5.0"
