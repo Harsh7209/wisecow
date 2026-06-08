@@ -5,10 +5,6 @@ name: wisecow-cluster
 nodes:
   - role: control-plane
     image: kindest/node:v1.35.0
-    extraPortMappings:
-      - containerPort: 4499
-        hostPort: 4499
-        protocol: TCP
 
   - role: worker
     image: kindest/node:v1.35.0
