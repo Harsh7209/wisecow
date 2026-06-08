@@ -2,7 +2,7 @@
 name: Ci Pipeline for wisecow
 
 on:
-  workflow_dispatch:
+  push:
 
 permissions:
   contents: write
