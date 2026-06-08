@@ -17,16 +17,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-     
-      - name: installing depedency
-        run: apt-get update && apt-get install -y --no-install-recommends \
-            bash \
-            cowsay \
-            fortune-mod \
-            fortunes-min \
-            netcat-openbsd \
-            && rm -rf /var/lib/apt/lists/*
-
 
       - name: Set image tag
         id: tag
