@@ -3,6 +3,7 @@ kind: KubeArmorPolicy
 metadata:
   name: wisecow-zero-trust
   namespace: wisecow
+
 spec:
   selector:
     matchLabels:
@@ -10,6 +11,7 @@ spec:
 
   process:
     matchPaths:
+      - path: /usr/bin/bash
       - path: /bin/bash
       - path: /bin/sh
       - path: /usr/bin/wget
@@ -17,7 +19,7 @@ spec:
 
   file:
     matchPaths:
-      - path: /etc/shadow
       - path: /etc/passwd
+      - path: /etc/shadow
 
   action: Block
