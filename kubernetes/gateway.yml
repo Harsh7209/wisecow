@@ -48,7 +48,7 @@ metadata:
   namespace: wisecow
 spec:
   hostnames:
-    - 52.43.41.247.sslip.io
+    - 52.43.41.247.sslip.io # Eks NLB
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
